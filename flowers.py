@@ -1,13 +1,13 @@
 from sys import stdin
 
 def flowers(k,n):
-    limite = int(n/k)+1
-    valor = np.zeros(limite)
-    valor[0] = 1
-    x = np.arange(0,limite+1,1)
-    valor[1:limite] = 1+n-(x[1:limite]*k)
-    return valor.sum()
-
+    if n-k<0:
+        return 1
+    valor = 1
+    limite = int(n/k) + 1
+    for i in range(1,limite):
+        valor += 1 + n - (i)*k
+    return valor
 #lectura de entrada
 arr = []
 for x in stdin.readlines():
