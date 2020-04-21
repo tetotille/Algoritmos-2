@@ -3,11 +3,10 @@ from sys import stdin
 def flowers(k,n):
     if n-k<0:
         return 1
-    valor = 1
-    limite = int(n/k) + 1
-    for i in range(1,limite):
-        valor += 1 + n - (i)*k
-    return valor
+    resultado = 1
+    m = int(n/k) 
+    resultado += m*(1+n-(k*(1+m))/2)
+    return resultado
 #lectura de entrada
 arr = []
 for x in stdin.readlines():
