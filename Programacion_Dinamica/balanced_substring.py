@@ -42,14 +42,28 @@ def encontrar_substring(n,S):
             resultados.append(i)
         else:
             bits.append((S[i],i))
-    resultado = encontrar_resultado(resultados)
-    return resultado
+    return resultados
 
+def minimo(lista):
+    try:
+        return min(lista)
+    except:
+        return 0
+
+def substring(n,S):
+    resultados = encontrar_substring(n,S)
+    resultados2 = encontrar_substring(n,invertir_cadena(S))
+    resultado1 = encontrar_resultado(resultados)
+    resultado2 = encontrar_resultado(resultados2)
+    resultados.sort()
+    a = len(S) - 1 - minimo(resultados2)
+    resultado3 = 0
+    for i in range(len(resultados)):
+        resultado_aux = encontrar_resultado(encontrar_substring(n-resultados[i],S[resultados[i]+1:a+1]))
+        if resultado_aux > resultado3:
+            resultado3 = resultado_aux
+    return max(resultado1,resultado2,resultado3)
 #MAIN
 n,S = entrada()
-resultado1 = encontrar_substring(n,S)
-resultado2 = encontrar_substring(n,invertir_cadena(S))
-if resultado1 > resultado2:
-    print(resultado1)
-else:
-    print(resultado2)
+resultado = substring(n,S)
+print(resultado)
