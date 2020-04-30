@@ -24,7 +24,7 @@ def encontrar_resultado(lista):
 def comprobar_anterior(bit, bits):
     if len(bits) == 0:
         return False
-    elif bits[-1][0] == bit:
+    elif bits[-1][0] == "0":
         return False
     else:
         return True
@@ -44,25 +44,55 @@ def encontrar_substring(n,S):
             bits.append((S[i],i))
     return resultados
 
-def minimo(lista):
-    try:
-        return min(lista)
-    except:
-        return 0
+def sumar_vector(vector,numero):
+    for i in range(len(vector)):
+        vector[i] = vector[i] + numero
+    return vector
+
+def resta_vector(vector,numero):
+    for i in range(len(vector)):
+        vector[i] = -vector[i] + numero
+    return vector
+
+def procesar_resultados(cadena1,cadena2,n,S):
+    cadena1 = set(cadena1)
+    cadena2 = set(cadena2)
+    fusion = cadena1.union(cadena2)
+    print(fusion)
+    conjuntos = [[]]
+    b = 1
+    for num in fusion:
+        if b == 1:
+            conjuntos[-1].append(num)
+            b = 0
+        if not(((num + 1) in fusion) or ((num + 2) in fusion)):
+            conjuntos[-1].append(num)
+            conjuntos.append([])
+            b = 1
+    maximo = 0
+    for conjunto in conjuntos:
+        print(conjunto)
+        if len(conjunto) != 0:
+            auxiliar = encontrar_resultado(encontrar_substring(n,S[min(conjunto):max(conjunto)]))
+            print(auxiliar  )
+            if maximo < auxiliar: maximo = auxiliar
+    return maximo
+
+
 
 def substring(n,S):
-    resultados = encontrar_substring(n,S)
-    resultados2 = encontrar_substring(n,invertir_cadena(S))
-    resultado1 = encontrar_resultado(resultados)
-    resultado2 = encontrar_resultado(resultados2)
-    resultados.sort()
-    a = len(S) - 1 - minimo(resultados2)
-    resultado3 = 0
+    resultados = []
+    resultados.append(encontrar_substring(n,S))
+    print(resultados[0])
+    S_inv = invertir_cadena(S)
+    resultados.append(encontrar_substring(n,S_inv))
+    resultados[1] = resta_vector(resultados[1],25)
+    resultado_aux = (procesar_resultados(resultados[0],resultados[1],n,S))
     for i in range(len(resultados)):
-        resultado_aux = encontrar_resultado(encontrar_substring(n-resultados[i],S[resultados[i]+1:a+1]))
-        if resultado_aux > resultado3:
-            resultado3 = resultado_aux
-    return max(resultado1,resultado2,resultado3)
+        resultados[i] = encontrar_resultado(resultados[i])
+    resultados.append(resultado_aux)
+    return max(resultados)
+
 #MAIN
 n,S = entrada()
 resultado = substring(n,S)
