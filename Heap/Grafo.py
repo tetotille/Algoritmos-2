@@ -1,6 +1,8 @@
 import networkx as nx
 import matplotlib.pyplot as plt
 
+lista_enlazada = []
+
 class Vertice:
     def __init__(self,x):
         self.clave = x
@@ -10,7 +12,7 @@ class Vertice:
         self.d = None
         self.f = None
     def __str__(self):
-        return str(self.clave)
+        return ("Vertice "+str(self.clave)+ "   Padre: "+str(self.pi))
 
     def __lt__(self, other):
         if self.clave < other.clave:
@@ -95,3 +97,43 @@ class Grafo:
                 G.add_edge(u.pi.clave,u.clave)
         nx.draw_circular(G,with_labels=True)
         plt.show()
+
+
+    def DFS_Visita(self,u):
+        global tiempo
+        global lista_enlazada
+        global es_aciclico
+        tiempo += 1
+        u.d = tiempo
+        u.color = "GRIS"
+        for v in u.vecinos:
+            if v[0].color == "GRIS":
+                es_aciclico = False
+            if v[0].color == "BLANCO":
+                v[0].pi = u
+                self.DFS_Visita(v[0])
+        u.color = "NEGRO"
+        lista_enlazada.append(u)
+        tiempo += 1
+        u.f = tiempo
+
+    def DFS(self):
+        c=0
+        global lista_enlazada
+        global noconectado
+        global tiempo
+        global es_aciclico
+        noconectado=False
+        for u in self.vertices:
+            u.color = "BLANCO"
+            u.pi = None
+        tiempo = 0
+        es_aciclico=True
+        for u in self.vertices:
+            if u.color == "BLANCO":
+                c=c+1
+                print("Se selecciono:",u.clave)
+                self.DFS_Visita(u)
+        if c>1:
+            noconectado=True
+        return lista_enlazada
