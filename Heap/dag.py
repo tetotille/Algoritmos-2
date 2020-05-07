@@ -27,19 +27,20 @@ def dag_shortest_paths(G,s):#El peso ya se incluye en la definición del grafo
             relax(u,v)
 
 
-vertics = [Vertice("a"),Vertice("b"),Vertice("c"),Vertice("d"),Vertice("e"),Vertice("f")]
-grafo = Grafo()
-grafo.vertices = vertics
-grafo.agregarArista(vertics[0],[vertics[1],3])
-grafo.agregarArista(vertics[0],[vertics[2],1])
-grafo.agregarArista(vertics[1],[vertics[3],2])
-grafo.agregarArista(vertics[2],[vertics[3],8])
-grafo.agregarArista(vertics[2],[vertics[4],4])
-grafo.agregarArista(vertics[3],[vertics[4],7])
-grafo.agregarArista(vertics[3],[vertics[5],1])
-grafo.agregarArista(vertics[4],[vertics[5],5])
-grafo.mostrarVecinos()
-dag_shortest_paths(grafo,grafo.vertices[0])
-print("")
-grafo.mostrarVecinos()
-grafo.mostrarGrafoSimplificado()
+if __name__ == "__main__":
+    vertics = [Vertice("a"),Vertice("b"),Vertice("c"),Vertice("d"),Vertice("e"),Vertice("f")]
+    grafo = Grafo()
+    grafo.vertices = vertics
+    grafo.agregarArista(vertics[0],[vertics[1],3])
+    grafo.agregarArista(vertics[0],[vertics[2],1])
+    grafo.agregarArista(vertics[1],[vertics[3],2])
+    grafo.agregarArista(vertics[2],[vertics[3],8])
+    grafo.agregarArista(vertics[2],[vertics[4],4])
+    grafo.agregarArista(vertics[3],[vertics[4],7])
+    grafo.agregarArista(vertics[3],[vertics[5],1])
+    grafo.agregarArista(vertics[4],[vertics[5],5])
+    grafo.mostrarVecinos()
+    dag_shortest_paths(grafo,grafo.vertices[0])
+    print("")
+    grafo.mostrarVecinos()
+    grafo.mostrarGrafoSimplificado()
