@@ -43,16 +43,14 @@ def extract_min(A):
     return min
 
 def heap_decrease_key(A,i,key):
-    if len(A)==0:
-        return
-    if key > A[i][0].d:
+    if key > A[i].d:
         print("error: new key is greater than current key")
         exit()
-    A[i][0].d = key
-    while i > 1 and A[parent(i)][0].d > A[i][0].d:
-        aux = A[i].d
-        A[i][0].d = A[parent(i)][0].d
-        A[parent(i)][0].d = aux
+    A[i].d = key
+    while i > 1 and A[parent(i)].d > A[i].d:
+        aux = A[i]
+        A[i] = A[parent(i)]
+        A[parent(i)] = aux
         i = parent(i)
 
 def min_heap_insert(A,key):

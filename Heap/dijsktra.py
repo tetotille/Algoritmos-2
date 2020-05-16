@@ -7,10 +7,10 @@ def initializeSingleSource(H,s):
         u.pi = None
     s.d = 0
 
-def relax(u,lista,i,key):
-    if lista[i][0].d > key:
-        lista[i][0].pi = u
-        heap_decrease_key(lista,i,key)
+def relax(u,v,H):
+    if v[0].d > u.d+v[1]:
+        v[0].pi = u
+        heap_decrease_key(H,H.index(v[0]),u.d+v[1])
 
 def Dijkstra(G,s):
     initializeSingleSource(G,s)
@@ -20,7 +20,7 @@ def Dijkstra(G,s):
         u = extract_min(H)
         for i in range(len(u.vecinos)):
             v = u.vecinos[i]
-            relax(u,u.vecinos,i,u.d+v[1])
+            relax(u,v,H)
 
 
 if __name__ != "__main__":
