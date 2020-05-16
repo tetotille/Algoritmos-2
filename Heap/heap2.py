@@ -1,7 +1,7 @@
 
 
 def parent(i):
-    return ((i-1)/2)
+    return int((i-1)/2)
 
 def left(i):
     return 2*i+1
@@ -13,16 +13,15 @@ def min_heapify(A,i=0):
     l = left(i)
     r = right(i)
     if l < len(A):
-        if A[l] < A[i]:
+        if A[l].d < A[i].d:
             smallest = l
         else:
             smallest = i
     else:
         smallest = i
     if r < len(A):
-        if A[r] < A[smallest]:
+        if A[r].d < A[smallest].d:
             smallest = r
-    #print(A[smallest])
     if smallest != i:
         aux = A[i]
         A[i] = A[smallest]
@@ -44,16 +43,18 @@ def extract_min(A):
     return min
 
 def heap_decrease_key(A,i,key):
-    if key > A[i]:
+    if len(A)==0:
+        return
+    if key > A[i][0].d:
         print("error: new key is greater than current key")
-        close()
-    A[i] = key
-    while i > 1 and A[parent(i)] > A[i]:
-        aux = A[i]
-        A[i] = A[parent(i)]
-        A[parent(i)] = aux
+        exit()
+    A[i][0].d = key
+    while i > 1 and A[parent(i)][0].d > A[i][0].d:
+        aux = A[i].d
+        A[i][0].d = A[parent(i)][0].d
+        A[parent(i)][0].d = aux
         i = parent(i)
 
 def min_heap_insert(A,key):
-    A.append(99999999)
+    A.append(float("inf"))
     heap_decrease_key(A,len(A),key)
