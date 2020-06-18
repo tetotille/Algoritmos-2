@@ -1,5 +1,6 @@
 from inpHeXionWindow import start_window
 from ganar import ganar
+from copy import copy, deepcopy
 
 def prueba(board):
     board[3][0] = 2
@@ -18,7 +19,7 @@ def prueba(board):
     board[1][2] = 2
     board[1][3] = 1
     board[2][3] = 1
-    board[0][4] = 1
+#    board[0][4] = 1
     board[2][4] = 1
     board[1][5] = 1
     board[3][5] = 1
@@ -43,14 +44,16 @@ def main(window):
 ### I: Primera jugada blanca ###
     pos = window.scan_position()
     board[pos[0]][pos[1]] = 1
-    print(pos)
-    prueba(board)
+#    prueba(board)
     window.print_board(board)
 ### F: Primera jugada blanca ###
 
     ultima_jugada = 1 #1 para blanco, 0 para negro
     while True:
-        print("JUEGUE")
+        if ultima_jugada == 1:
+            print("Turno de jugador Negro")
+        else:
+            print("Turno del jugador Blanco")
         pos = window.scan_position() #seleccion de pieza
 
         ## I: Verificación de si la pieza que se tocó es correcta
@@ -85,7 +88,7 @@ def main(window):
             board[pos[0]][pos[1]] = 2
             board[pos2[0]][pos2[1]] = 1
             ultima_jugada = 0
-            if ganar(board.copy(),2):
+            if ganar(deepcopy(board),2):
                 end_game = 2
         ## F: Jugada Jugador negro
 
@@ -94,7 +97,7 @@ def main(window):
             board[pos[0]][pos[1]] = 1
             board[pos2[0]][pos2[1]] = 2
             ultima_jugada = 1
-            if ganar(board.copy(),1):
+            if ganar(deepcopy(board),1):
                 end_game = 1
 
         ## F: Jugada Jugador blanco
@@ -105,9 +108,9 @@ def main(window):
         if end_game:
             break
     if end_game == 1:
-        print("Ganó el jugador blanco")
+        input("Ganó el jugador blanco")
     else:
-        print("Ganó el jugador negro")
+        input("Ganó el jugador negro")
 
     ## F: Condición de fin de juego y publicación de ganador
 
