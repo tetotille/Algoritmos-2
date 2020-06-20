@@ -1,34 +1,12 @@
+### InPhexion                       ###
+### Versión: 1.0                    ###
+### Creador: Jorge Tillería         ###
+### Correo: jtilleria@fiuna.edu.py  ###
+
 from inpHeXionWindow import start_window
 from ganar import ganar
 from copy import copy, deepcopy
 from inPhexBot import bot
-
-def prueba(board):
-    board[3][0] = 2
-#    board[1][1] = 2
-    board[2][1] = 2
-    board[3][1] = 2
-    board[2][2] = 2
-    board[3][2] = 2
-    board[0][3] = 2
-    board[3][3] = 2
-    board[1][4] = 2
-    board[3][4] = 2
-    board[2][5] = 1
-    board[3][6] = 2
-    board[0][2] = 1
-    board[1][2] = 2
-    board[1][3] = 1
-    board[2][3] = 1
-#    board[0][4] = 1
-    board[2][4] = 1
-    board[1][5] = 1
-    board[3][5] = 1
-    board[4][5] = 1
-    board[5][5] = 1
-    board[6][5] = 1
-    board[1][6] = 1
-#    board[2][6] = 1
 
 def main(window):
 ### I: declaración del tablero ###
@@ -45,7 +23,6 @@ def main(window):
 ### I: Primera jugada blanca ###
     pos = window.scan_position()
     board[pos[0]][pos[1]] = 1
-#    prueba(board)
     window.print_board(board)
 ### F: Primera jugada blanca ###
 
