@@ -20,17 +20,17 @@ def jugadas_posibles(tablero,pos): # Retorna una lista de posiciones de juego po
     jugadas = []
     # Los try-except se agregan para evitar errores de índices en los bordes
     try:
-        if  tablero[pos[0]][pos[1]-1] == 0:
+        if  tablero[pos[0]][pos[1]-1] == 0 and pos[1]-1 >= 0:
             jugadas.append((pos[0],pos[1]-1))
     except:
         pass
     try:
-        if tablero[pos[0]+1][pos[1]-1] == 0:
+        if tablero[pos[0]+1][pos[1]-1] == 0 and pos[1]-1 >= 0:
             jugadas.append((pos[0]+1,pos[1]-1))
     except:
         pass
     try:
-        if tablero[pos[0]-1][pos[1]] == 0:
+        if tablero[pos[0]-1][pos[1]] == 0 and pos[0]-1 >= 0:
             jugadas.append((pos[0]-1,pos[1]))
     except:
         pass
@@ -40,7 +40,7 @@ def jugadas_posibles(tablero,pos): # Retorna una lista de posiciones de juego po
     except:
         pass
     try:
-        if tablero[pos[0]-1][pos[1]+1] == 0:
+        if tablero[pos[0]-1][pos[1]+1] == 0 and pos[0]-1 >= 0:
             jugadas.append((pos[0]-1,pos[1]+1))
     except:
         pass
