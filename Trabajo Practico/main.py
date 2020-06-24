@@ -1,12 +1,14 @@
-### InPhexion                       ###
-### Versión: 1.0                    ###
-### Creador: Jorge Tillería         ###
-### Correo: jtilleria@fiuna.edu.py  ###
-
 from inpHeXionWindow import start_window
 from ganar import ganar
 from copy import copy, deepcopy
 from inPhexBot import bot
+
+### InPhexion                       ###
+### Versión: 1.0.0                  ###
+### Creador: Jorge Tillería         ###
+### Correo: jtilleria@fiuna.edu.py  ###
+
+
 
 def main(window):
 ### I: declaración del tablero ###
@@ -31,11 +33,12 @@ def main(window):
         if ultima_jugada == 1:
             print("Turno de jugador Negro")
         else:
-            print("Turno del jugador Blanco")
+            print("\nTurno del jugador Blanco")
         if ultima_jugada != 2:
             pos = window.scan_position() #seleccion de pieza
         else:
-            pos, pos2 = bot(deepcopy(board),1,3)
+            pos, pos2 = bot(deepcopy(board),2,4)
+
         ## I: Verificación de si la pieza que se tocó es correcta
         if ultima_jugada == 1 and board[pos[0]][pos[1]] != 1: continue
         elif ultima_jugada == 0 and board[pos[0]][pos[1]] != 2: continue
@@ -63,6 +66,9 @@ def main(window):
             if bandera_deseleccion == 1:
                 continue
         ## F: Verificación de si el destino es válido
+
+        print("Ficha seleccionada: ",pos)
+        print("Posición de movida: ",pos2)
 
         ## I: Jugada Jugador negro
         if board[pos[0]][pos[1]] == 1:

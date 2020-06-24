@@ -84,6 +84,7 @@ def ganar(tablero,jugador):
     raiz1 = set()
     raiz2 = set()
     for i in range(7):
+        
         ## I: verificador de condición de fichas extremas negro
         if jugador == 1:
             if tablero[0][i] == 1:
