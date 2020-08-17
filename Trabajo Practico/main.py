@@ -37,7 +37,7 @@ def main(window):
         if ultima_jugada != 2:
             pos = window.scan_position() #seleccion de pieza
         else:
-            pos, pos2 = bot(deepcopy(board),2,4)
+            pos, pos2 = bot(deepcopy(board),2,5)
 
         ## I: Verificación de si la pieza que se tocó es correcta
         if ultima_jugada == 1 and board[pos[0]][pos[1]] != 1: continue

@@ -149,11 +149,15 @@ def heuristica(tablero,jugador):
     cad_hor = obtener_horizontal(deepcopy(tablero))
     if jugador == 1:# Jugador blanco, linea horizontal
         try:
+            if cad_ver == 7: return 0.001
+            if cad_hor == 7: return 999
             value = cad_hor/cad_ver
         except:
             pass
     else:# Jugador negro, linea vertical
         try:
+            if cad_hor == 7: return 0.001
+            if cad_ver == 7: return 999
             value = cad_ver/cad_hor
         except:
             pass
@@ -184,20 +188,14 @@ def minimax (tablero, profundidad, jugador_maximizador,jugador):
         jugador2 = 1
 
     ## I: Verifica si el juego terminó o alcanzó el límite de cálculo
-    #print(es_terminal(tablero,pos),pos)##########################################
-    #######print("profundidad",profundidad)
-    #######imprimir(tablero)
     if profundidad == 0 or es_terminal(deepcopy(tablero)):
         puntaje = heuristica(tablero,jugador)
-        #######print("Puntaje: "+str(puntaje))
-        #######imprimir(tablero)#########################################
         return puntaje
     ## F: Verifica si el juego terminó o alcanzó el límite de cálculo
 
     ## I: Busca las jugadas que dé mayor puntaje
     if jugador_maximizador == True:
         lista_fichas = encontrar_fichas(tablero,jugador2) # Primero encuentra todas las fichas movibles
-        #######print("Lista_fichas: ",lista_fichas,end="\n\n")
         value = -float("inf")
         for ficha in lista_fichas:
             for hijo in jugadas_posibles(tablero,ficha):
@@ -210,7 +208,6 @@ def minimax (tablero, profundidad, jugador_maximizador,jugador):
     ## I: Busca la jugada con menor puntaje ya que esa sería la mejor jugada del contrincante
     else: #Jugador minimizador
         lista_fichas = encontrar_fichas(tablero,jugador)
-        ######print("Lista_fichasss: ",lista_fichas,end="\n\n")
         value = float("inf")
         for ficha in lista_fichas:
             for hijo in jugadas_posibles(tablero,ficha):
@@ -220,6 +217,51 @@ def minimax (tablero, profundidad, jugador_maximizador,jugador):
         return value
     ## F: Busca la jugada con menor puntaje ya que esa sería la mejor jugada del contrincante
 
+def minimax_alpha_beta (tablero, profundidad, jugador_maximizador,jugador,alpha,beta):
+    if jugador == 1: # Se obtiene el segundo jugador
+        jugador2 = 2
+    else:
+        jugador2 = 1
+
+    ## I: Verifica si el juego terminó o alcanzó el límite de cálculo
+    if profundidad == 0 or es_terminal(deepcopy(tablero)):
+        puntaje = heuristica(tablero,jugador)
+        return puntaje
+    ## F: Verifica si el juego terminó o alcanzó el límite de cálculo
+
+    ## I: Busca las jugadas que dé mayor puntaje
+    if jugador_maximizador == True:
+        maxEval = -float("inf")
+        lista_fichas = encontrar_fichas(tablero,jugador2) # Primero encuentra todas las fichas movibles
+        value = -float("inf")
+        for ficha in lista_fichas:
+            for hijo in jugadas_posibles(tablero,ficha):
+                realizar_jugada(tablero,ficha,hijo)
+                value = max(value,minimax_alpha_beta(tablero,profundidad-1,False,jugador,alpha,beta))
+                maxEval = max(maxEval,value)
+                alpha = max(alpha, value)
+                desrealizar_jugada(tablero,ficha,hijo)
+                if beta <= alpha: break
+            if beta <= alpha: break
+        return maxEval
+    ## F: Busca las jugadas que dé mayor puntaje
+
+    ## I: Busca la jugada con menor puntaje ya que esa sería la mejor jugada del contrincante
+    else: #Jugador minimizador
+        minEval = float("inf")
+        lista_fichas = encontrar_fichas(tablero,jugador)
+        value = float("inf")
+        for ficha in lista_fichas:
+            for hijo in jugadas_posibles(tablero,ficha):
+                realizar_jugada(tablero,ficha,hijo)
+                value = min(value,minimax_alpha_beta(tablero,profundidad-1,True,jugador,alpha, beta))
+                minEval = min(minEval, value)
+                beta = min(minEval,value)
+                desrealizar_jugada(tablero,ficha,hijo)
+                if beta <= alpha: break
+            if beta <= alpha: break
+        return minEval
+    ## F: Busca la jugada con menor puntaje ya que esa sería la mejor jugada del contrincante
 
 def bot(tablero,jugador,profundidad):
     if jugador == 1:
@@ -227,7 +269,7 @@ def bot(tablero,jugador,profundidad):
     else:
         jugador2 = 1
     lista_fichas = encontrar_fichas(tablero,jugador2)
-    #######print(lista_fichas)
+
     ## I: Inicialización de variables
     ficha_elegida = (0,0)
     jugada_elegida = (0,0)
@@ -241,14 +283,16 @@ def bot(tablero,jugador,profundidad):
         for pos in lista_jugadas:
             tablero_aux = deepcopy(tablero)
             realizar_jugada(tablero_aux,ficha,pos)
-            posible_maximo = minimax(tablero_aux,profundidad,False,jugador)
+            posible_maximo = minimax_alpha_beta(tablero_aux,profundidad,False,jugador,-float("inf"),float("inf"))
             if maximo < posible_maximo:
                 maximo = posible_maximo
                 ficha_elegida = ficha
                 jugada_elegida = pos
                 print(maximo,ficha_elegida,jugada_elegida)
             desrealizar_jugada(tablero_aux,ficha,pos)
-
+            if maximo > 1.5: break
+        if maximo > 1.5: break
+    print(maximo)
     ## F: Encuentra las jugadas posibles y obtiene la mejor de todas
 
     return ficha_elegida, jugada_elegida
