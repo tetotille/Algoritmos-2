@@ -2,15 +2,18 @@ from inpHeXionWindow import start_window
 from ganar import ganar
 from copy import copy, deepcopy
 from inPhexBot import bot
+from verificador import verificar_encierro
+import numpy as np
 
 ### InPhexion                       ###
-### Versión: 1.0.0                  ###
+### Versión: Beta                   ###
 ### Creador: Jorge Tillería         ###
 ### Correo: jtilleria@fiuna.edu.py  ###
 
 
 
 def main(window):
+    global nivel
 ### I: declaración del tablero ###
     board = []
     for i in range(7):
@@ -37,7 +40,7 @@ def main(window):
         if ultima_jugada != 2:
             pos = window.scan_position() #seleccion de pieza
         else:
-            pos, pos2 = bot(deepcopy(board),2,5)
+            pos, pos2 = bot(deepcopy(board),2,nivel)
 
         ## I: Verificación de si la pieza que se tocó es correcta
         if ultima_jugada == 1 and board[pos[0]][pos[1]] != 1: continue
@@ -91,6 +94,27 @@ def main(window):
 
         window.print_board(board)
 
+        ## I: Jugador encerrado
+        encerrado = verificar_encierro(board)
+        if len(encerrado) > 0:
+            for extra in encerrado:
+                bandera_posicion = 0
+                while bandera_posicion == 0:
+                    if board[extra[1][0]][extra[1][1]] == 1:
+                        np.random.seed(int(np.random.random()*100))
+                        i_1 = int(np.random.random()*7)
+                        np.random.seed(int(np.random.random()*100))
+                        i_2 = int(np.random.random()*7)
+                        pos = [i_1,i_2]
+                    else:
+                        pos = window.scan_position()
+                        print(pos)
+                    if board[pos[0]][pos[1]]==0:
+                        bandera_posicion = 1
+                board[pos[0]][pos[1]] = board[extra[1][0]][extra[1][1]]
+                board[extra[1][0]][extra[1][1]] = 0
+        ## F: Jugador encerrado
+
     ## I: Condición de fin de juego y publicación de ganador
         if end_game:
             break
@@ -103,4 +127,26 @@ def main(window):
 
     window.close()
 
+
+print("----------------------------------------")
+print("---------Bienvenido a inpHexion---------")
+print("----------------------------------------")
+print()
+print("Seleccione la dificultad:")
+print("1. Fácil")
+print("2. Medio")
+print("3. Difícil")
+while(True):
+    try: 
+        nivel = int(input())
+    except:
+        continue
+    if nivel == 1:
+        break
+    elif nivel ==2:
+        nivel = 3
+        break
+    elif nivel ==3:
+        nivel = 5
+        break
 start_window(main)

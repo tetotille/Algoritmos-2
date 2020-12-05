@@ -292,7 +292,6 @@ def bot(tablero,jugador,profundidad):
             desrealizar_jugada(tablero_aux,ficha,pos)
             if maximo > 1.5: break
         if maximo > 1.5: break
-    print(maximo)
     ## F: Encuentra las jugadas posibles y obtiene la mejor de todas
 
     return ficha_elegida, jugada_elegida
